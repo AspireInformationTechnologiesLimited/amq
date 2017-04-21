@@ -6,3 +6,6 @@
 /.gradle/buildOutputCleanup/built.bin
 /.gradle/buildOutputCleanup/cache.properties
 /.gradle/buildOutputCleanup/cache.properties.lock
+/amq.iml
+/amq.ipr
+/amq.iws

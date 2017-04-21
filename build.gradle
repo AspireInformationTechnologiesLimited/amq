@@ -6,7 +6,6 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/tutorial_java_projects.html
  */
 
-/*
 // Apply the groovy plugin to add support for Groovy
 plugins {
   id 'java'
@@ -30,4 +29,3 @@ dependencies {
 	testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 	testCompile 'junit:junit:4.12'
 }
-*/
