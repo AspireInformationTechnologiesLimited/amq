@@ -1,0 +1,18 @@
+{
+  "userId" : "admin",
+  "password": "admin",
+  "url" : "localhost:61616",
+  "publishTo" : "inbound.pubsub.recieve",
+  "payloads":[
+    {"source" : "hal",
+      "resourceName" : "pam"
+
+  },
+    {"source" : "hal",
+      "resourceName" : "pam"
+
+    }
+
+  ]
+
+}
