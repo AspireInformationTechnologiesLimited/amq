@@ -13,21 +13,21 @@ class Boot {
 
         if( !( loc))
         {
-            println("usage :: java -Dloc=<config location> -jar <<amq-xx-all.jar>>")
+            println("usage :: java -Dconf=<config location> -jar <<amq-xx-all.jar>>")
         }
         else
         {
-            String json = new File(loc).text;
-            def config = new JsonSlurper(new File(json).text)
+            //String json = new File(loc).text;
+            def config = new JsonSlurper().parse(new File(loc))
             String tmpLoc = config.templateLoc
 
-            AMQActor amqActor = new AMQActor(json)
+            AMQActor amqActor = new AMQActor(config.userId, config.password, config.url, config.publishTo)
             config.templates.each{ template ->
-                Map<String, String> data = getData()
+                Map<String, String> data = Template.INSTANCE.getData()
                 String payload = Template.INSTANCE.enrich(
-                        new File(tmpLoc+(template.source+"_"+template.resourceName).toLowerCase()).text,
+                        new File(tmpLoc+(String.valueOf(template.source).replaceAll("\\.","_")+"_"+template.resourceName).toLowerCase()+".xml").text,
                         data)
-                amqActor.publish(payload, ([template.source, template.resourceName] << data.values()).join(","))
+                amqActor.publish(payload, (([template.source, template.resourceName] + data.values()).join(",")).toString())
             }
 
             amqActor.tearDown()

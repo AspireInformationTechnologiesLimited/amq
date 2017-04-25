@@ -23,17 +23,18 @@ class AMQActor {
     private final Session session
     private final MessageProducer producer
 
-    public AMQActor(String jsonConfig)
+    public AMQActor(String userId, String password, String url, String pubQ)
     {
-        def config = new JsonSlurper(jsonConfig).parseText(jsonConfig)
-        ActiveMQConnectionFactory  connectionFactory = new ActiveMQConnectionFactory(config.userId, config.password, config.url);
+
+        System.out.println("establishing connection to $url using $userId/$password to publish to $pubQ")
+        ActiveMQConnectionFactory  connectionFactory = new ActiveMQConnectionFactory(userId, password, url);
         this.connection = connectionFactory.createConnection();
         this.connection.start();
         // Create a Session
         this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
         // Create the destination (Topic or Queue)
-        Destination destination = session.createQueue(config.publishTo);
+        Destination destination = session.createQueue(pubQ);
 
         // Create a MessageProducer from the Session to the Topic or Queue
         this.producer = session.createProducer(destination);

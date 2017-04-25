@@ -21,15 +21,12 @@ enum Template {
             "createdUtc": getUTCDate(),
             "resourceId" :randomNumericId(8),
             "resourceCreatedUtc" : getUTCDate()
-        ]
+        ] as Map
     }
 
     private String randomNumericId(int numOfDigits)
     {
-        long timeSeed = System.nanoTime(); // to get the current date time value
-        double randSeed = Math.random() * 1000; // random number generation
-        long midSeed = (long) (timeSeed * randSeed); // mixing up the time and
-        String.valueOf(timeSeed * randSeed).substring(0, numOfDigits).replaceAll(".","");
+        String.valueOf(System.nanoTime() ).substring(0, numOfDigits);
     }
 
     private String getUTCDate()
@@ -39,7 +36,7 @@ enum Template {
 
     private String getUUID()
     {
-        UUID.randomUUID().toString()
+        java.util.UUID.randomUUID().toString()
     }
 
 }
