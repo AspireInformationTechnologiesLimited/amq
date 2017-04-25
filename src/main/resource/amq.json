@@ -1,18 +1,19 @@
 {
-  "userId" : "admin",
+  "userId": "admin",
   "password": "admin",
-  "url" : "localhost:61616",
-  "publishTo" : "inbound.pubsub.recieve",
-  "payloads":[
-    {"source" : "hal",
-      "resourceName" : "pam"
-
-  },
-    {"source" : "hal",
-      "resourceName" : "pam"
-
+  "url": "localhost:61616",
+  "publishTo": "inbound.pubsub.recieve",
+  "templateLoc" : "C:\\sandeep\\gdrive\\workspace\\umg\\payloads\\templates\\",
+  "templates": [
+    {
+      "source": "hal",
+      "resourceName": "pam"
+    },
+    {
+      "source": "hal",
+      "resourceName": "pam",
+      "noOf": 2,
+      "template": "C:\\sandeep\\gdrive\\workspace\\umg\\payloads\\templates\\mytemplate.xml"
     }
-
   ]
-
 }
