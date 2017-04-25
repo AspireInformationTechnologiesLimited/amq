@@ -22,14 +22,16 @@ class Boot {
             String tmpLoc = config.templateLoc
 
             AMQActor amqActor = new AMQActor(config.userId, config.password, config.url, config.publishTo)
-            config.templates.each{ template ->
-                Map<String, String> data = Template.INSTANCE.getData()
-                String payload = Template.INSTANCE.enrich(
-                        new File(tmpLoc+(String.valueOf(template.source).replaceAll("\\.","_")+"_"+template.resourceName).toLowerCase()+".xml").text,
-                        data)
-                amqActor.publish(payload, (([template.source, template.resourceName] + data.values()).join(",")).toString())
-            }
+            config.templates.each{ t ->
+                String templatePath = t.template ?: tmpLoc+(String.valueOf(t.source).replaceAll("\\.","_")+"_"+t.resourceName).toLowerCase()+".xml"
+                int n = t.noOf ?: 1
+                n.times {
+                    Map<String, String> data = Template.INSTANCE.getData()
+                    String payload = Template.INSTANCE.enrich(new File(templatePath).text, data)
+                    amqActor.publish(payload, (([t.source, t.resourceName] + data.values()).join(",")).toString())
+                }
 
+            }
             amqActor.tearDown()
         }
 

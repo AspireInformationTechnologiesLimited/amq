@@ -1,7 +1,7 @@
 {
   "userId": "admin",
   "password": "admin",
-  "url": "localhost:61616",
+  "url": "failover:(tcp://localhost:61616)",
   "publishTo": "inbound.pubsub.recieve",
   "templateLoc" : "C:\\sandeep\\gdrive\\workspace\\umg\\payloads\\templates\\",
   "templates": [
