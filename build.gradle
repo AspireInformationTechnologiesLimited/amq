@@ -35,6 +35,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.activemq/activemq-all
     compile group: 'org.apache.activemq', name: 'activemq-all', version: '5.14.4'
 
+    // https://mvnrepository.com/artifact/joda-time/joda-time
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 	testCompile 'junit:junit:4.12'
 }

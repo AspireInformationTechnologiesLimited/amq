@@ -1,6 +1,9 @@
 package com.ait.devops.amq
 
 import groovy.text.SimpleTemplateEngine
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.format.ISODateTimeFormat
 
 /**
  * Created by sande on 21/04/2017.
@@ -31,7 +34,7 @@ enum Template {
 
     private String getUTCDate()
     {
-        new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'", TimeZone.getTimeZone("UTC"))
+        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTime())
     }
 
     private String getUUID()
