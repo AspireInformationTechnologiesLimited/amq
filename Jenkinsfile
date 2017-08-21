@@ -1,12 +1,14 @@
 pipeline {
     agent any
-
+	tools { 
+        maven 'Maven 3.3.9' 
+        jdk 'jdk8' 
+    }
     stages {
         stage('Setup') {
-			node() {
-				env.JAVA_HOME = "${tool name: 'jdk-8', type: 'jdk'}"
-				env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+			node() {				
 				sh 'java -version'
+				sh 'mvn -version'
 			}			
 		}
 		stage('Build') {
