@@ -2,7 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Setup') {
+			steps {
+				sh 'java -version'
+				sh 'gradle -version'
+				sh 'mvn -version'
+			}			
+		}
+		stage('Build') {
             steps {
                 echo 'Building..'
             }
