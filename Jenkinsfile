@@ -4,9 +4,9 @@ pipeline {
     stages {
         stage('Setup') {
 			steps {
+				env.JAVA_HOME = "${tool name: 'jdk-8', type: 'jdk'}"
+				env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
 				sh 'java -version'
-				sh 'gradle -version'
-				sh 'mvn -version'
 			}			
 		}
 		stage('Build') {
