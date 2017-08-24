@@ -1,18 +1,15 @@
 pipeline {
-   //def mvnHome
    agent any
+   environment { 
+        CC = 'clang'
+    }
    
    stages {
 	   stage('Preparation') { // for display purposes
 		  steps {
-			  // Get some code from a GitHub repository
-			  git 'https://github.com/AspireInformationTechnologiesLimited/amq.git'
-			  // Get the Maven tool.
-			  // ** NOTE: This 'M3' Maven tool must be configured
-			  // **       in the global configuration.           
-			  env.JAVA_HOME = "${tool name: 'sunJdk8', type: 'jdk'}"
-			  env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
-			  //mvnHome = tool 'maven350'
+		  
+			  withEnv(["JAVA_HOME=${ tool 'sunJdk8' }", "PATH+MAVEN=${tool 'maven350'}/bin:${env.JAVA_HOME}/bin"]) {
+			  sh "mvn --batch-mode -V -U -e clean deploy -Dsurefire.useFile=false"
 		  }
 	   }
 	   stage('Build') {
