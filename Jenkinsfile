@@ -9,7 +9,8 @@ pipeline {
 		  steps {
 		  
 			  withEnv(["JAVA_HOME=${ tool 'sunJdk8' }", "PATH+MAVEN=${tool 'maven350'}/bin:${env.JAVA_HOME}/bin"]) {
-			  sh "mvn --batch-mode -V -U -e clean deploy -Dsurefire.useFile=false"
+				sh "mvn --batch-mode -V -U -e clean deploy -Dsurefire.useFile=false"
+			  }
 		  }
 	   }
 	   stage('Build') {
