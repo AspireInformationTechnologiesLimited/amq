@@ -18,7 +18,7 @@ node() {
    stage('Build') {
       // Run the maven build
       sh 'java -version'
-	  sh 'mvn -version'
+	  //sh 'mvn -version'
 	  echo 'Building ...'
 	  
 	  /*if (isUnix()) {
