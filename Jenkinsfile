@@ -29,7 +29,7 @@ node() {
    }
    stage('Results') {
       echo 'Results ...'
-	  /*junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar' */
+	  //junit '**/target/surefire-reports/TEST-*.xml'
+      //archive 'target/*.jar' 
    }
 }
