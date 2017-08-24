@@ -1,9 +1,9 @@
 node() {
-   /*def mvnHome
+   //def mvnHome
    tools { 
         maven 'maven350' 
         jdk 'sunJdk8' 
-    }*/
+    }
   
    stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
