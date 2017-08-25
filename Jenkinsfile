@@ -1,38 +1,28 @@
 pipeline {
-   agent any
-   environment { 
-        CC = 'clang'
+    agent any
+    tools {
+        maven 'maven350'
+        jdk 'sunjdk8'
     }
-   
-   stages {
-	   stage('Preparation') { // for display purposes
-		  steps {
-		  
-			  withEnv(["JAVA_HOME=${ tool 'sunJdk8' }", "PATH+MAVEN=${tool 'maven350'}/bin:${env.JAVA_HOME}/bin"]) {
-				sh "mvn --batch-mode -V -U -e clean deploy -Dsurefire.useFile=false"
-			  }
-		  }
-	   }
-	   stage('Build') {
-		  steps {
-			  // Run the maven build
-			  sh 'java -version'
-			  //sh 'mvn -version'
-			  echo 'Building ...'
-			  
-			  /*if (isUnix()) {
-				 sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
-			  } else {
-				 bat(/"${mvnHome}\bin\mvn" -Dmaven.test.failure.ignore clean package/)
-			  }*/
-			}
-	   }
-	   stage('Results') {
-		  steps {
-			  echo 'Results ...'
-			  //junit '**/target/surefire-reports/TEST-*.xml'
-			  //archive 'target/*.jar' 
-		  }
-	   }
-	}
+    stages {
+        stage ('Initialize') {
+            steps {
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
+
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+            }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml' 
+                }
+            }
+        }
+    }
 }
