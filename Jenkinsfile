@@ -3,6 +3,7 @@ pipeline {
     tools {
         maven 'maven350'
         jdk 'sunjdk8'
+		gradle 'gradle41'
     }
     stages {
         stage ('Initialize') {
@@ -16,7 +17,7 @@ pipeline {
 
         stage ('Build') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 
+                sh './gradlew.sh clean shadowJar' 
             }
             post {
                 success {
