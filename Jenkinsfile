@@ -6,9 +6,9 @@ pipeline {
 		gradle 'gradle41'
     }
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
-                sh './gradlew clean check'
+                sh './gradlew clean shadowJar'
             }
         }
     }
