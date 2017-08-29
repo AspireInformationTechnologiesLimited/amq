@@ -14,16 +14,27 @@ pipeline {
                 '''
             }
         }
+		
+		stages {
+			stage('Test') {
+				steps {
+					sh './gradlew clean check'
+				}
+			}
+			
+			post {
+				always {
+					junit 'build/reports/**/*.xml'
+				}
+			}
+
+		}		
 
         stage ('Build') {
             steps {
                 sh './gradlew clean shadowJar' 
             }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
-            }
+			
         }
     }
 }
