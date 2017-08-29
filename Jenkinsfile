@@ -6,30 +6,16 @@ pipeline {
 		gradle 'gradle41'
     }
     stages {
-        stage ('Initialize') {
+        stage('Test') {
             steps {
-                sh './gradlew clean'
+                sh './gradlew check'
             }
-        }		
-
-		stage('Test') {
-			steps {
-				sh './gradlew check'
-			}	
-			
-			post {
-				always {
-					junit 'build/reports/**/*.xml'
-				}
-			}	
-		}
-		
-
-        stage ('Build') {
-            steps {
-                sh './gradlew shadowJar' 
-            }
-			
         }
     }
+    post {
+        always {
+            junit 'build/reports/**/*.xml'
+        }
+    }
+
 }
