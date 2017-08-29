@@ -13,22 +13,19 @@ pipeline {
                     echo "M2_HOME = ${M2_HOME}"
                 '''
             }
-        }
-		
-		stages {
-			stage('Test') {
-				steps {
-					sh './gradlew clean check'
-				}
-			}
-			
-			post {
-				always {
-					junit 'build/reports/**/*.xml'
-				}
-			}
+        }		
 
-		}		
+		stage('Test') {
+			steps {
+				sh './gradlew clean check'
+			}
+		}
+		
+		post {
+			always {
+				junit 'build/reports/**/*.xml'
+			}
+		}	
 
         stage ('Build') {
             steps {
