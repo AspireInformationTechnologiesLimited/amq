@@ -8,28 +8,26 @@ pipeline {
     stages {
         stage ('Initialize') {
             steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
+                sh './gradlew clean'
             }
         }		
 
 		stage('Test') {
 			steps {
-				sh './gradlew clean check'
-			}
+				sh './gradlew check'
+			}	
+			
+			post {
+				always {
+					junit 'build/reports/**/*.xml'
+				}
+			}	
 		}
 		
-		post {
-			always {
-				junit 'build/reports/**/*.xml'
-			}
-		}	
 
         stage ('Build') {
             steps {
-                sh './gradlew clean shadowJar' 
+                sh './gradlew shadowJar' 
             }
 			
         }
