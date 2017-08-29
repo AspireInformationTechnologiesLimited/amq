@@ -17,7 +17,7 @@ pipeline {
 
         stage ('Build') {
             steps {
-                sh './gradlew.sh clean shadowJar' 
+                sh './gradlew clean shadowJar' 
             }
             post {
                 success {
