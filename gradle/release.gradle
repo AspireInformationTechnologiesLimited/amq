@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'pl.allegro.tech.build:axion-release-plugin:1.6.0'
+    }
+}
+
+apply plugin: pl.allegro.tech.build.axion.release.ReleasePlugin
+
+scmVersion {
+    versionIncrementer 'incrementPatch'
+    useHighestVersion = true
+    ignoreUncommittedChanges = true
+    tag {
+        prefix = ''
+        initialVersion = { tag, position -> return '0.0.1' }
+    }
+}
+
+project.version = scmVersion.version

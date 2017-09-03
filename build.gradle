@@ -6,28 +6,23 @@
  * user guide available at https://docs.gradle.org/3.5/userguide/tutorial_java_projects.html
  */
 
-// Apply the groovy plugin to add support for Groovy
-plugins {
-  id 'java'
-  id 'groovy'
-  id 'eclipse'
-  id 'idea'
-  id 'maven'
-  id 'com.github.johnrengelman.shadow' version '1.2.4'
-}
+apply from: "${rootDir}/gradle/project.gradle"
+apply from: "${rootDir}/gradle/release.gradle"
+apply from: "${rootDir}/gradle/artifacts.gradle"
+apply from: "${rootDir}/gradle/docker.gradle"
+
+
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     mavenCentral()
 }
 
-version = '1.0'
-sourceCompatibility = '1.8'
-
-shadowJar {
+/*shadowJar {
     manifest{
         attributes 'Main-Class': 'com.ait.devops.amq.Boot'
     }
-}
+}*/
 
 // In this section you declare the dependencies for your production and test code
 dependencies {

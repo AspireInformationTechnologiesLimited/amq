@@ -1,0 +1,19 @@
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+project.afterEvaluate {
+    jar {
+        manifest {
+            attributes(
+                    'Main-Class': 'com.ait.devops.amq.Boot',
+                    'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+            )
+        }
+    }
+}
+
+artifacts {
+    archives sourcesJar
+}

@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.github.ben-manes:gradle-versions-plugin:+"
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+repositories {
+    mavenCentral()
+}
+
+// Apply the groovy plugin to add support for Groovy
+/*plugins {
+    id 'java'
+    id 'groovy'
+    id 'eclipse'
+    id 'idea'
+    id 'maven'
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    id 'project-report'
+    id com.github.benmanes.gradle.versions.VersionsPlugin
+}*/
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'project-report'
+apply plugin: com.github.benmanes.gradle.versions.VersionsPlugin
+//apply plugin: "com.github.johnrengelman.shadow" version "2.0.1"
+
+group = 'com.ait.amq'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

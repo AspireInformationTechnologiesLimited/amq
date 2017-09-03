@@ -1,0 +1,110 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+buildscript {
+    repositories.jcenter()
+    dependencies.classpath 'com.bmuschko:gradle-docker-plugin:3.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: com.bmuschko.gradle.docker.DockerRemoteApiPlugin
+
+File _sourceDir = project.rootDir
+File _sourceDockerDir= new File(_sourceDir, "docker")
+File _buildDir = project.buildDir
+
+File _libDir = new File(_buildDir, "lib")
+File _buildDockerDir = new File(_buildDir, "docker")
+File _dockerfile  = new File(_buildDockerDir, "Dockerfile")
+
+/*task createDockerfile(type: com.bmuschko.gradle.docker.tasks.image.Dockerfile) {
+    destFile = project.file('build/mydockerfile/Dockerfile')
+    from 'ubuntu:12.04'
+
+}*/
+
+task dockerCopyDependencies(type: Copy) {
+    description 'Copies the generated artifacts to the Docker lib folder'
+    from project.configurations.compile
+    into _libDir.path
+}
+
+task dockerCopyResources( type: Copy) {
+    description 'Copies the generated resources to the Docker resources folder'
+    println("sourceDir :: "+_sourceDockerDir.path)
+    println("resourcesDir :: "+_buildDockerDir.path)
+    from _sourceDockerDir.path
+    into _buildDockerDir.path
+}
+
+task dockerCopyArtifacts(type: Copy) {
+    description 'Copies the dependencies to the Docker lib folder'
+    from(project.buildDir.path + '/libs') {
+        include "${project.name}-${project.version}.jar"
+    }
+    into _libDir.path
+}
+
+task dockerPrepare( type: Copy, group: 'Docker') {
+    dependsOn project.tasks['assemble']
+    dependsOn project.tasks['dockerCopyArtifacts']
+    dependsOn project.tasks['dockerCopyResources']
+    dependsOn project.tasks['dockerCopyDependencies']
+
+    from _sourceDir.path
+    into _buildDir.path
+    filter(ReplaceTokens, tokens: [
+            version   : project.version,
+            artifactId: project.name,
+            groupId   : project.group.toString(),
+            buildDate : java.time.Instant.now().toString()
+    ])
+}
+
+task dockerBuild (type: com.bmuschko.gradle.docker.tasks.image.DockerBuildImage) {
+    dependsOn project.tasks['dockerPrepare']
+
+    dockerFile = _dockerfile
+    inputDir = _buildDir
+    tag = project.name + ':latest'
+}
+
+task dockerContainer (type: com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer ) {
+    dependsOn project.tasks['dockerBuild']
+    targetImageId { project.tasks['dockerBuild'].getImageId() }
+    containerName = project.name
+}
+
+task dockerStart (type: com.bmuschko.gradle.docker.tasks.container.DockerStartContainer) {
+    dependsOn project.tasks['dockerContainer']
+    targetContainerId { project.name }
+}
+
+task dockerStop ( type: com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer) {
+    force = true
+    targetContainerId { project.name }
+}
+
+
+/*import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import com.bmuschko.gradle.docker.DockerExtension
+import com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer
+import com.bmuschko.gradle.docker.tasks.container.DockerStartContainer
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+File sourceDir = project.rootDir
+File buildDir = project.buildDir
+
+File libDir = new File(buildDir, "lib")
+File resourcesDir = new File(buildDir, "resources")
+File dockerfile  = new File(buildDir, "Dockerfile")
+
+project.afterEvaluate {
+    def dockerToolboxCerts = new File(System.properties['user.home'].toString(), '.docker/machine/certs')
+    DockerExtension dockerExtension = project.extensions.getByName('docker') as DockerExtension
+    project.task('dockerConfigure', )
+}*/
