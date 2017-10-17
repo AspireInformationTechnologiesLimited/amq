@@ -26,12 +26,8 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.7'
-    // https://mvnrepository.com/artifact/org.apache.activemq/activemq-all
-    compile group: 'org.apache.activemq', name: 'activemq-all', version: '5.14.4'
-
-    // https://mvnrepository.com/artifact/joda-time/joda-time
-    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'    
+    compile 'io.vertx:vertx-web:3.4.2'
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 	testCompile 'junit:junit:4.12'
