@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew clean dockerPrepare'
+                sh './gradlew clean test assemble'
             }
         }
     }
